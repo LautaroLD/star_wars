@@ -7,7 +7,18 @@ export default function CharacterDetails() {
   const { id } = useParams();
 
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState<Character>({});
+  const [data, setData] = useState<Character>({
+    name: '',
+    gender: '',
+    eye_color: '',
+    birth_year: '',
+    hair_color: '',
+    height: '',
+    skin_color: '',
+    mass: '',
+    url: '',
+    id: '',
+  });
   useEffect(() => {
     fetch('/api/people?id=' + id)
       .then((response) => response.json())
