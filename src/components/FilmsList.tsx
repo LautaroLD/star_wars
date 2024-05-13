@@ -13,7 +13,6 @@ export default function FilmsList() {
       .then(({ data }) => {
         setData(data);
         setLoading(false);
-        console.log(data);
       });
   }, []);
   return (
@@ -29,6 +28,8 @@ export default function FilmsList() {
               <Image
                 src='/imageFilms.webp'
                 fill
+                priority
+                sizes='100%'
                 className='object-fill'
                 alt={`Image of film ${film.title}`}
                 title={`Image of film ${film.title}`}
