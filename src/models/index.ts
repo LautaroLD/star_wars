@@ -7,8 +7,9 @@ export interface Film {
   id: string;
 }
 export interface Character {
+  [key: string]: any;
   name: string;
-  gender: string;
+  gender?: string;
   eye_color: string;
   birth_year: string;
   hair_color: string;

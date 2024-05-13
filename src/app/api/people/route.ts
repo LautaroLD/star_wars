@@ -1,38 +1,39 @@
-import { Film, Character } from '@/models/index';
+import { Character } from '@/models/index';
 import { NextRequest } from 'next/server';
 export async function GET(req: NextRequest) {
   const id = new URL(req.url).searchParams.get('id') ?? '';
-
-  const res = await fetch(`https://swapi.dev/api/people/${id}`);
+  const next = new URL(req.url).searchParams.get('next') ?? '';
+  const res = await fetch(id ? `https://swapi.dev/api/people/${id}` : next);
   const data = await res.json();
-  console.log(data);
-
   if (data.results) {
     return Response.json({
-      data: data.results.map((people: Character): Partial<Character> => {
-        const parts = people.url.split('/');
+      next: data.next,
+      data: data.results.map((character: Character): Partial<Character> => {
+        const parts = character.url.split('/');
         parts.pop();
         const id = parts.pop();
+
+        let dataFiltered: Partial<Character> = {};
+        for (const key in character) {
+          if (character[key] !== 'n/a' && character[key] !== 'unknown') {
+            dataFiltered[key] = character[key];
+          }
+        }
         return {
-          name: people.name,
-          eye_color: people.eye_color,
-          gender: people.gender,
+          name: dataFiltered.name,
+          eye_color: dataFiltered.eye_color,
+          gender: dataFiltered.gender,
           id: id,
         };
       }),
     });
   } else {
-    return Response.json({
-      data: {
-        name: data.name,
-        gender: data.gender,
-        eye_color: data.eye_color,
-        birth_year: data.birth_year,
-        hair_color: data.hair_color,
-        height: data.height,
-        skin_color: data.skin_color,
-        mass: data.mass,
-      },
-    });
+    let dataFiltered: Partial<Character> = {};
+    for (const key in data) {
+      if (data[key] !== 'n/a' && data[key] !== 'unknown') {
+        dataFiltered[key] = data[key];
+      }
+    }
+    return Response.json({ data: dataFiltered });
   }
 }
