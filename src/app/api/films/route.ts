@@ -5,7 +5,6 @@ export async function GET(req: NextRequest) {
 
   const res = await fetch(`https://swapi.dev/api/films/${id}`);
   const data = await res.json();
-  console.log(data);
   if (data.results) {
     return Response.json({
       data: data.results.map((film: Film): Partial<Film> => {

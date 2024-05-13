@@ -1,5 +1,5 @@
 'use client';
-import CharacterCard from '@/components/Character';
+import CharacterCard from '@/components/CharacterCard';
 import { Film } from '@/models';
 import Image from 'next/image';
 import { useParams } from 'next/navigation';
@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 
 export default function FilmDetails() {
   const { id } = useParams();
-
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<Film>({
     title: '',
@@ -23,7 +22,6 @@ export default function FilmDetails() {
       .then(({ data }) => {
         setData(data);
         setLoading(false);
-        console.log(data);
       });
   }, []);
 
@@ -36,6 +34,8 @@ export default function FilmDetails() {
               <Image
                 src='/imageFilms.webp'
                 fill
+                priority
+                sizes='100%'
                 className='object-fill '
                 alt={`Image of film ${data.title}`}
                 title={`Image of film ${data.title}`}
@@ -47,6 +47,7 @@ export default function FilmDetails() {
               <p>Episode: {data.episode_id}</p>
             </div>
           </section>
+          <h4 className='text-xl font-semibold'>Characters</h4>
           <section className='flex flex-nowrap w-full overflow-x-scroll gap-3 p-3'>
             {data.characters_id.map((character, index) => (
               <CharacterCard id={character} key={index} />
