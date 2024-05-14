@@ -48,24 +48,36 @@ export default function CharacterDetails() {
           </div>
           <div className='flex flex-col text-start gap-2'>
             <h3 className='text-2xl font-bold'>{data.name}</h3>
-            <p>
-              Eye color:<b> {data.eye_color}</b>
-            </p>
-            <p>
-              Birth year:<b> {data.birth_year}</b>
-            </p>
-            <p>
-              Hair color:<b> {data.hair_color}</b>
-            </p>
-            <p>
-              Height:<b> {data.height}</b>
-            </p>
-            <p>
-              Mass:<b> {data.mass}</b>
-            </p>
-            <p>
-              Skin color:<b> {data.skin_color}</b>
-            </p>
+            {data.eye_color && (
+              <p>
+                Eye color:<b> {data.eye_color}</b>
+              </p>
+            )}
+            {data.birth_year && (
+              <p>
+                Birth year:<b> {data.birth_year}</b>
+              </p>
+            )}
+            {data.hair_color && (
+              <p>
+                Hair color:<b> {data.hair_color}</b>
+              </p>
+            )}
+            {data.height && (
+              <p>
+                Height:<b> {data.height}</b>
+              </p>
+            )}
+            {data.mass && (
+              <p>
+                Mass:<b> {data.mass}</b>
+              </p>
+            )}
+            {data.skin_color && (
+              <p>
+                Skin color:<b> {data.skin_color}</b>
+              </p>
+            )}
           </div>
         </section>
       )}

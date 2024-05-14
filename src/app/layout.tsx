@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import Header from '@/components/Header';
+import Header from '@/components/shared/Header';
 import { ChildrenProps } from '@/models';
 
 export const metadata: Metadata = {

@@ -1,5 +1,5 @@
 'use client';
-import { FetchPeople } from '@/hooks/FetchPeople';
+import { useFetchPeople } from '@/hooks/FetchPeople';
 import { Character } from '@/models';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -7,11 +7,12 @@ import React, { useEffect, useRef, useState } from 'react';
 import Loading from './shared/Loading';
 
 export default function CharactersList() {
+  const { getPeople } = useFetchPeople();
   const [loading, setLoading] = useState(true);
   const next = useRef('https://swapi.dev/api/people');
   const [data, setData] = useState<Character[]>([]);
   useEffect(() => {
-    FetchPeople({ next, setData, setLoading });
+    getPeople({ next, setData, setLoading });
   }, []);
 
   return (
@@ -48,7 +49,7 @@ export default function CharactersList() {
         {next.current !== null && (
           <button
             className='bg-[#dba90c] text-black px-4 py-1 h-min rounded-xl font-semibold'
-            onClick={() => FetchPeople({ next, setData, setLoading })}
+            onClick={() => getPeople({ next, setData, setLoading })}
           >
             More
           </button>

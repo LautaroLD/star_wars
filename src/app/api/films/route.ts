@@ -1,5 +1,12 @@
 import { Film } from '@/models/index';
 import { NextRequest } from 'next/server';
+
+const getIdFromUrl = (url: string): string => {
+  const parts = url.split('/');
+  parts.pop();
+  return parts.pop() ?? '';
+};
+
 export async function GET(req: NextRequest) {
   const id = new URL(req.url).searchParams.get('id') ?? '';
 
@@ -8,13 +15,10 @@ export async function GET(req: NextRequest) {
   if (data.results) {
     return Response.json({
       data: data.results.map((film: Film): Partial<Film> => {
-        const parts = film.url.split('/');
-        parts.pop();
-        const id = parts.pop();
         return {
           title: film.title,
           episode_id: film.episode_id,
-          id: id,
+          id: getIdFromUrl(film.url),
         };
       }),
     });
@@ -24,12 +28,7 @@ export async function GET(req: NextRequest) {
         title: data.title,
         episode_id: data.episode_id,
         director: data.director,
-        characters_id: data.characters.map((character: string) => {
-          const parts = character.split('/');
-          parts.pop();
-          const id = parts.pop();
-          return id;
-        }),
+        characters_id: data.characters.map(getIdFromUrl),
       },
     });
   }
