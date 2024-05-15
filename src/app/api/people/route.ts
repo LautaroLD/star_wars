@@ -1,21 +1,6 @@
+import { filterData } from '@/hooks/useFilterData';
 import { Character } from '@/models/index';
 import { NextRequest } from 'next/server';
-
-const filterData = (data: Character): Partial<Character> => {
-  let dataFiltered: Partial<Character> = {};
-  for (const key in data) {
-    if (data[key] !== 'n/a' && data[key] !== 'unknown') {
-      dataFiltered[key] = data[key];
-    }
-  }
-  return dataFiltered;
-};
-
-const getIdFromUrl = (url: string): string => {
-  const parts = url.split('/');
-  parts.pop();
-  return parts.pop() ?? '';
-};
 
 export async function GET(req: NextRequest) {
   const id = new URL(req.url).searchParams.get('id') ?? '';
@@ -28,10 +13,7 @@ export async function GET(req: NextRequest) {
         next: data.next,
         data: data.results.map((character: Character): Partial<Character> => {
           const filteredData = filterData(character);
-          return {
-            ...filteredData,
-            id: getIdFromUrl(character.url),
-          };
+          return filteredData;
         }),
       });
     } else {
