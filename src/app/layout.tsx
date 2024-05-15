@@ -5,6 +5,7 @@ import { ChildrenProps } from '@/models';
 
 export const metadata: Metadata = {
   title: 'Star Wars',
+  icons: '/favicon.svg',
 };
 
 export default function RootLayout({ children }: ChildrenProps) {
